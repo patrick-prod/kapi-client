@@ -26,3 +26,17 @@ html,
   margin-top: 15px;
   font-size: 12px;
 }
+
+a {
+  text-decoration: none;
+  color: #2c3e50;
+}
+
+.el-card__header {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.el-form-item__label {
+  font-size: 12px !important;
+}

@@ -23,7 +23,9 @@ axios.defaults.headers.post['Content-Type'] =
 axios.defaults.withCredentials = true
 axios.interceptors.request.use(config => {
   // 将请求参数格式转换
-  config.data = qs.stringify(config.data)
+  if (config.method != 'delete') {
+    config.data = qs.stringify(config.data)
+  }
   //   config.headers.Authorization = window.sessionStorage.getItem('token')
   return config
 })

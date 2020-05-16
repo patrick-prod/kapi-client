@@ -48,7 +48,7 @@
             v-model="registerForm.username"
             placeholder="username"
             prefix-icon="fa fa-user-o"
-            @input="generateAvatar('kapi' + registerForm.username)"
+            @input="generateAvatar('kapi-' + registerForm.username)"
           ></el-input>
         </el-form-item>
         <el-form-item prop="email">
@@ -106,11 +106,7 @@ export default {
       // 注册还是登录
       wantLogin: true,
       // 注册表单
-      registerForm: {
-        username: '',
-        email: '',
-        password: ''
-      },
+      registerForm: {},
       // 注册表单校验规则对象
       registerFormRules: {
         username: [
@@ -165,10 +161,11 @@ export default {
           }
           return this.$message.error(errMsg)
         }
+
+        window.sessionStorage.setItem('uid', res.data.data.uid)
+        window.sessionStorage.setItem('username', res.data.data.username)
         this.$message.success('登录成功！')
-        let ck = document.cookie
-        const ss = await this.$http.get('groups/mine')
-        console.log(ss)
+        this.$router.push('/group')
       })
     },
     // 注册
@@ -176,10 +173,7 @@ export default {
       this.$refs.registerFormRef.validate(async valid => {
         if (!valid) return
         const regEmail = this.registerForm.email
-        const res = await this.$http.post(
-          'user/register',
-          qs.stringify(this.registerForm)
-        )
+        const res = await this.$http.post('user/register', this.registerForm)
         if (res.status !== 200) {
           let errMsg = '注册失败！'
           if (res.data && res.data.msg !== '') {
